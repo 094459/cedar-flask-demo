@@ -64,6 +64,8 @@ You should now be able to start the application
 python app.py
 ```
 
-Opening a browser at localhot:5000 should bring up the Flas app. To login, check out the users.dat file for sample users.
+Opening a browser at localhost:5000 should bring up the Flask app. To login, check out the users.dat file for sample users.
+
+![example homepage of demo](images/cedar-python-demo.png)
 
 
