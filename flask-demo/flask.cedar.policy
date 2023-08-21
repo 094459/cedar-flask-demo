@@ -1,0 +1,38 @@
+
+// policy0 - ALLOW for the Doe's
+permit (
+  principal in PhotoApp::UserGroup::"DoeFamily", 
+  action == PhotoApp::Action::"viewPhoto", 
+  resource in PhotoApp::Album::"DoePhotos"
+);
+
+// policy1 - ALLOW for the Joe Public
+permit (
+  principal in PhotoApp::UserGroup::"Public", 
+  action == PhotoApp::Action::"viewPhoto", 
+  resource in PhotoApp::Album::"DoePublicPhotos"
+);
+
+// policy2 - ALLOW for Admin User principals
+permit (
+  principal == PhotoApp::User::"admin", 
+  action, 
+  resource
+);
+
+// policy3 - ALLOW for ric User to view photos
+permit (
+  principal == PhotoApp::User::"ric", 
+  action == PhotoApp::Action::"viewPhoto", 
+  resource
+);
+
+// policy4 - ALLOW for ric User to view photos
+permit (
+  principal == PhotoApp::User::"ric", 
+  action == PhotoApp::Action::"siteAdmin", 
+  resource
+);
+
+// policy2 - ALLOW for all principals
+//permit ( principal, action, resource );

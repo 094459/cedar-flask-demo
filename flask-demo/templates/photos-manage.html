@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}My Photos{% endblock %}
+{% block content %}
+<div class="container mt-5">
+<br><br>
+{% if current_user.is_authenticated %}
+<h4><strong>Manage your photos {{ current_user.id }}</strong></h4>
+
+{% endif %}
+
+<br><br>
+<h5><strong>Manage your Photos</strong></h5>
+<p>
+    <ul class="list-group">
+        <li class="list-group-item"><img src="{{ url_for('protected', filename='images/pic-1.jpeg') }}" alt="Picture One" style="width:200px;"></li>
+        <li class="list-group-item"><img src="{{ url_for('protected', filename='images/pic-2.png') }}" alt="Picture Two" style="width:200px;"></li>
+        <li class="list-group-item"><img src="{{ url_for('protected', filename='images/pic-3.jpg') }}" alt="Picture Thr" style="width:200px;"></li>     
+</ul>
+    
+</p>
+
+<footer class="footer mt-auto py-3 bg-light">
+        <span class="text-muted"><h5><strong> ✅ Powered by Cedar</strong></h5></span>
+</footer>
+
+
+</div>
+
+{% endblock %}

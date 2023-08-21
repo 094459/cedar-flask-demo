@@ -1,0 +1,6 @@
+admin:password:admin
+user:user:user
+JaneDoe:JaneDoe:user
+ric:ric:admin
+JohnDoe:JohnDoe:user
+JoePublic:JoePublic:user

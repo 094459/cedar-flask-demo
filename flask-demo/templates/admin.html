@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Admin Page{% endblock %}
+{% block content %}
+<div class="container mt-5">
+<br><br>
+{% if current_user.is_authenticated %}
+<h4><strong>Cedar welcomes administrator {{ current_user.id }}</strong></h4>
+
+{% endif %}
+
+<br><br>
+<h5><strong>Administration Page</strong></h5>
+<p>Cedar is a language for defining permissions as policies, which describe who should have access to what. It is also a specification for evaluating those policies. Use Cedar policies to control what each user of your application is permitted to do and what resources they may access.</p>
+<p>This is a simple demo of how you can use Cedar with Python. It uses an open source project from k9 Security, called <a href="https://github.com/k9securityio/cedar-py">cedar-py</a></p>
+
+<br>
+<p>
+    Find out more by checking out the <a href="https://www.cedarpolicy.com/en/learn">Learning resources</a> available for Cedar. Also make sure you check out the slack Cedar community. It is a great way to meet the community and find out more about how and why developers are using Cedar.
+</p>
+
+<footer class="footer mt-auto py-3 bg-light">
+        <span class="text-muted"><h5><strong> ✅ Powered by Cedar</strong></h5></span>
+</footer>
+
+
+</div>
+
+{% endblock %}

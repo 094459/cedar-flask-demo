@@ -1,0 +1,34 @@
+{
+    "PhotoApp": {
+      "entityTypes": {
+        "User": {
+          "memberOfTypes": ["UserGroup"]
+        },
+        "UserGroup": {},
+        "Photo": {
+          "memberOfTypes": ["Album"]
+        },
+        "Album": {}
+      },
+      "actions": {
+        "viewPhoto": {
+          "appliesTo": {
+            "principalTypes": ["User"],
+            "resourceTypes": ["Photo"]
+          }
+        },
+        "managePhoto":{
+            "appliesTo": {
+                "principalTypes": ["User"],
+                "resourceTypes": ["Photo"]
+            }            
+        },
+        "siteAdmin":{
+            "appliesTo": {
+                "principalTypes": ["User"],
+                "resourceTypes": ["Photo"]
+            }            
+        }
+      }
+    }
+  }

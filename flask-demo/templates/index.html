@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="container mt-5">
+<br><br>
+{% if current_user.is_authenticated %}
+<h4><strong>Cedar welcomes {{ current_user.id }}</strong></h4>
+
+{% endif %}
+
+{% if current_user.is_anonymous %}
+    <h4><strong>Welcome, this is a safe haven for all Cedar enthusiasts</strong></h4>
+{% endif %}
+<br><br>
+<h5><strong>What is Cedar</strong></h5>
+<p>Cedar is a language for defining permissions as policies, which describe who should have access to what. It is also a specification for evaluating those policies. Use Cedar policies to control what each user of your application is permitted to do and what resources they may access.</p>
+<p>This is a simple demo of how you can use Cedar with Python. It uses an open source project from k9 Security, called <a href="https://github.com/k9securityio/cedar-py">cedar-py</a></p>
+<p>Please check out some of the resources below to learn more about Cedar, including a hands on tutorial with interactive labs, and fun demo applications that help you see Cedar in action</p>
+<br>
+
+    <h5><strong>Useful resources for Cedar</strong></h5>
+    <br>
+    <ul class="list-group">
+            <li class="list-group-item"><a href="https://www.cedarpolicy.com/en">Cedar Policy Homepage</a></li>
+            <li class="list-group-item"><a href="https://docs.cedarpolicy.com/">Cedar Policy Language Guide</a></li>
+            <li class="list-group-item"><a href="https://www.cedarpolicy.com/en/playground">Cedar Policy Playground</a></li>
+            <li class="list-group-item"><a href="https://catalog.workshops.aws/cedar-policy-language-in-action/en-US/10-introduction">Cedar Workshop</a></li>
+            <li class="list-group-item"><a href="https://github.com/cedar-policy">Cedar GitHub Repo</a></li>       
+    </ul>
+<br>
+<h5><strong>Learning more</strong></h5>
+<br>
+<p>
+    Find out more by checking out the <a href="https://www.cedarpolicy.com/en/learn">Learning resources</a> available for Cedar. Also make sure you check out the slack Cedar community. It is a great way to meet the community and find out more about how and why developers are using Cedar.
+</p>
+
+<footer class="footer mt-auto py-3 bg-light">
+        <span class="text-muted"><h5><strong> ✅ Powered by Cedar</strong></h5></span>
+</footer>
+
+
+</div>
+
+{% endblock %}
