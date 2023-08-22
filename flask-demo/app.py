@@ -24,7 +24,8 @@ def read_file_to_string(file_path):
 cedar_app_entities = read_file_to_string('entities.json')
 cedar_app_schema = read_file_to_string('schema.json')
 
-app = Flask(__name__,instance_path="/Users/ricsue/Projects/DevDay/cedar-python/cedar-python-demo/flask-demo")
+currentdir = os.path.dirname(os.path.realpath(__file__))
+app = Flask(__name__,instance_path=currentdir)
 print(app.instance_path)
 app.secret_key = '1234'
 
@@ -108,44 +109,40 @@ def index():
 def admin_dashboard():
     policy = read_file_to_string('flask.cedar.policy')
     authz_result: AuthzResult = is_authorized(request_adm, policy, cedar_app_entities, cedar_app_schema, False)
-    if str(authz_result.decision) == 'Decision.Deny':
+    if Decision.Deny == authz_result.decision:
         return render_template('denied.html')
         abort(403)  # Forbidden
-    if str(authz_result.decision) == 'Decision.Allow':          
-        return render_template('admin.html')
+    return render_template('admin.html')
 
 @app.route('/photos')
 @login_required
 def photo_page():
     policy = read_file_to_string('flask.cedar.policy')
-    authz_result: AuthzResult = is_authorized(request_photo, policy, cedar_app_entities, cedar_app_schema, True)
-    if str(authz_result.decision) == 'Decision.Deny':
+    authz_result: AuthzResult = is_authorized(request_photo, policy, cedar_app_entities, cedar_app_schema, False)
+    if Decision.Deny == authz_result.decision:
         return render_template('denied.html')
         abort(403)  # Forbidden
-    if str(authz_result.decision) == 'Decision.Allow':          
-        return render_template('photos.html')
+    return render_template('photos.html')
 
 @app.route('/public-photos')
 @login_required
 def public_page():
     policy = read_file_to_string('flask.cedar.policy')
-    authz_result: AuthzResult = is_authorized(public_photos, policy, cedar_app_entities, cedar_app_schema, True)
-    if str(authz_result.decision) == 'Decision.Deny':
+    authz_result: AuthzResult = is_authorized(public_photos, policy, cedar_app_entities, cedar_app_schema, False)
+    if Decision.Deny == authz_result.decision:
         return render_template('denied.html')
         abort(403)  # Forbidden
-    if str(authz_result.decision) == 'Decision.Allow':          
-        return render_template('public-photos.html')
+    return render_template('public-photos.html')
 
 @app.route('/manage')
 @login_required
 def photo_manage():
     policy = read_file_to_string('flask.cedar.policy')
     authz_result: AuthzResult = is_authorized(request_manage, policy, cedar_app_entities, cedar_app_schema, False)
-    if str(authz_result.decision) == 'Decision.Deny':
+    if Decision.Deny == authz_result.decision:
         return render_template('denied.html')
         abort(403)  # Forbidden
-    if str(authz_result.decision) == 'Decision.Allow':          
-        return render_template('photos-manage.html')
+    return render_template('photos-manage.html')
 
 if __name__ == '__main__':
     policy = read_file_to_string('flask.cedar.policy')
