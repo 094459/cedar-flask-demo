@@ -37,6 +37,8 @@ This demo would not be possible without the excellent work of **Stephen Kuenzli*
 
 **Installation**
 
+First make sure you have a version of Python greater than 3.9. When I built this I was using 3.10.11, but I have also used version 3.9.3 on my AWS Cloud9 environment. I followed [this guide](https://repost.aws/questions/QU14iutbqtSsm1gHwQwt02pA/upgrade-to-python-3-9-on-cloud-9) to help me deploy pyenv.
+
 To get this up and running, first create a virtual Python environment
 
 ```
@@ -64,7 +66,7 @@ You should now be able to start the application
 python app.py
 ```
 
-Opening a browser at localhost:5000 should bring up the Flask app. To login, check out the users.dat file for sample users.
+Opening a browser at http://localhost:8080 should bring up the Flask app. To login, check out the users.dat file for sample users.
 
 ![example homepage of demo](images/cedar-python-demo.png)
 

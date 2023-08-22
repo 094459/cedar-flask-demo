@@ -151,7 +151,7 @@ if __name__ == '__main__':
     observer.schedule(event_handler, path='flask.cedar.policy', recursive=False)
     observer.start()
     try:
-        app.run(debug=True)
+        app.run(port=8080,debug=True)
     except KeyboardInterrupt:
         observer.stop()
     observer.join()
