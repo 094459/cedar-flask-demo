@@ -5,28 +5,35 @@ permit (
   resource in PhotoApp::Album::"DoePublicPhotos"
 );
 
-// policy1 - ALLOW for the Doe's
+// policy2 - ALLOW for the Doe's to view Private Photos
 permit (
   principal in PhotoApp::UserGroup::"DoeFamily", 
   action == PhotoApp::Action::"viewPhoto", 
   resource in PhotoApp::Album::"DoePhotos"
 );
 
-// policy2 - ALLOW for Admin User principals
+// policy3 - ALLOW for the Doe's to manage Photos
+permit (
+  principal in PhotoApp::UserGroup::"DoeFamily", 
+  action == PhotoApp::Action::"viewPhoto", 
+  resource in PhotoApp::Album::"DoePhotos"
+);
+
+// policy4 - ALLOW for Admin User principals
 permit (
   principal == PhotoApp::User::"admin", 
   action, 
   resource
 );
 
-// policy3 - ALLOW for ric User to view photos
+// policy5 - ALLOW for ric User to view photos
 permit (
   principal == PhotoApp::User::"ric", 
   action == PhotoApp::Action::"viewPhoto", 
   resource
 );
 
-// policy4 - ALLOW for ric User to view photos
+// policy6 - ALLOW for ric User to view photos
 permit (
   principal == PhotoApp::User::"ric", 
   action == PhotoApp::Action::"siteAdmin", 
