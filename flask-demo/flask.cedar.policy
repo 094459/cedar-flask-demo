@@ -6,9 +6,10 @@ permit (
 );
 
 // policy2 - ALLOW for the Doe's to view Private Photos
+//   action in [PhotoApp::Action::"viewPhoto", PhotoApp::Action::"managePhoto"],
 permit (
   principal in PhotoApp::UserGroup::"DoeFamily", 
-  action == PhotoApp::Action::"viewPhoto", 
+  action == PhotoApp::Action::"viewPhoto",
   resource in PhotoApp::Album::"DoePhotos"
 );
 
