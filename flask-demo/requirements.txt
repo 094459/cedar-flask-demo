@@ -2,4 +2,4 @@ watchdog==3.0.0
 Flask==2.3.2
 Flask-Login==0.6.2
 cedarpy==0.3.0
-Werkzeug==2.3.0
+Werkzeug==2.3.3
