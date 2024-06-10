@@ -1,6 +1,6 @@
 from flask import Flask, redirect, url_for, abort, render_template, request, flash, send_from_directory
 from flask_login import LoginManager, UserMixin, login_required, current_user, login_user, logout_user
-from cedarpy import is_authorized, AuthzResult, Decision
+from cedarpy import is_authorized, AuthzResult, Decision, Diagnostics
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import os
@@ -21,8 +21,8 @@ def read_file_to_string(file_path):
 
 # Load up Demo App Entities and Schema from file
 
-cedar_app_entities = read_file_to_string('entities.json')
-cedar_app_schema = read_file_to_string('schema.json')
+cedar_app_entities = read_file_to_string('cedarentities.json')
+cedar_app_schema = read_file_to_string('cedarschema.json')
 
 currentdir = os.path.dirname(os.path.realpath(__file__))
 app = Flask(__name__,instance_path=currentdir)
@@ -78,15 +78,6 @@ def login():
         if username in users and users[username]['password'] == password:
             user = User(username, users[username]['role'])
             login_user(user)
-            # Don't do this in real life - this is just for demo purposes to make it easier to follow along
-            global request_adm
-            global request_photo
-            global request_manage
-            global public_photos
-            request_adm = {"principal": f"PhotoApp::User::\"{current_user.id}\"","action": "PhotoApp::Action::\"siteAdmin\"","resource": "PhotoApp::Photo::\"\"","context": { }}
-            request_photo = {"principal": f"PhotoApp::User::\"{current_user.id}\"","action": "PhotoApp::Action::\"viewPhoto\"","resource": "PhotoApp::Album::\"DoePhotos\"","context": { }}
-            public_photos = {"principal": f"PhotoApp::User::\"{current_user.id}\"","action": "PhotoApp::Action::\"viewPhoto\"","resource": "PhotoApp::Album::\"DoePublicPhotos\"","context": { }}
-            request_manage = {"principal": f"PhotoApp::User::\"{current_user.id}\"","action": "PhotoApp::Action::\"managePhoto\"","resource": "PhotoApp::Album::\"DoePhotos\"","context": { }}
             return redirect(url_for('index'))
         else:
             flash('Invalid credentials', 'danger')
@@ -107,8 +98,14 @@ def index():
 @app.route('/admin')
 @login_required
 def admin_dashboard():
-    policy = read_file_to_string('flask.cedar.policy')
-    authz_result: AuthzResult = is_authorized(request_adm, policy, cedar_app_entities, cedar_app_schema, False)
+    app_action = "\"siteAdmin\""
+    app_resources = "PhotoApp::App::\"\""
+    app_user = f"PhotoApp::User::\"{current_user.id}\""
+    request = {"principal": app_user,"action": f"PhotoApp::Action::{app_action}","resource": app_resources,"context": { "authenticated": True , "ip" : "10.44.1.99" }}
+    policy = read_file_to_string('policies.cedar')
+    authz_result: AuthzResult = is_authorized(request, policy, cedar_app_entities, cedar_app_schema, False)  
+    diagnostics = Diagnostics(authz_result._authz_resp.get('diagnostics', {}))
+    print(diagnostics._diagnostics.get('reason', list()))
     if Decision.Deny == authz_result.decision:
         return render_template('denied.html')
         abort(403)  # Forbidden
@@ -117,8 +114,14 @@ def admin_dashboard():
 @app.route('/photos')
 @login_required
 def photo_page():
-    policy = read_file_to_string('flask.cedar.policy')
-    authz_result: AuthzResult = is_authorized(request_photo, policy, cedar_app_entities, cedar_app_schema, False)
+    app_action = "\"viewPhoto\""
+    app_resources = "PhotoApp::Album::\"DoePhotos\""
+    app_user = f"PhotoApp::User::\"{current_user.id}\""
+    request = {"principal": app_user,"action": f"PhotoApp::Action::{app_action}","resource": app_resources,"context": { "authenticated": True }}
+    policy = read_file_to_string('policies.cedar')
+    authz_result: AuthzResult = is_authorized(request, policy, cedar_app_entities, cedar_app_schema, False)
+    diagnostics = Diagnostics(authz_result._authz_resp.get('diagnostics', {}))
+    print(diagnostics._diagnostics.get('reason', list()))
     if Decision.Deny == authz_result.decision:
         return render_template('denied.html')
         abort(403)  # Forbidden
@@ -127,8 +130,14 @@ def photo_page():
 @app.route('/public-photos')
 @login_required
 def public_page():
-    policy = read_file_to_string('flask.cedar.policy')
-    authz_result: AuthzResult = is_authorized(public_photos, policy, cedar_app_entities, cedar_app_schema, False)
+    app_action = "\"viewPhoto\""
+    app_resources = "PhotoApp::Album::\"DoePublicPhotos\""
+    app_user = f"PhotoApp::User::\"{current_user.id}\""
+    request = {"principal": app_user,"action": f"PhotoApp::Action::{app_action}","resource": app_resources,"context": { "authenticated": True }}
+    policy = read_file_to_string('policies.cedar')
+    authz_result: AuthzResult = is_authorized(request, policy, cedar_app_entities, cedar_app_schema, False)
+    diagnostics = Diagnostics(authz_result._authz_resp.get('diagnostics', {}))
+    print(diagnostics._diagnostics.get('reason', list()))
     if Decision.Deny == authz_result.decision:
         return render_template('denied.html')
         abort(403)  # Forbidden
@@ -137,18 +146,24 @@ def public_page():
 @app.route('/manage')
 @login_required
 def photo_manage():
-    policy = read_file_to_string('flask.cedar.policy')
-    authz_result: AuthzResult = is_authorized(request_manage, policy, cedar_app_entities, cedar_app_schema, False)
+    app_action = "\"managePhoto\""
+    app_resources = "PhotoApp::Album::\"DoePhotos\""
+    app_user = f"PhotoApp::User::\"{current_user.id}\""
+    request = {"principal": app_user,"action": f"PhotoApp::Action::{app_action}","resource": app_resources,"context": { "authenticated": True, "MFAEnable": True }}
+    policy = read_file_to_string('policies.cedar')
+    authz_result: AuthzResult = is_authorized(request, policy, cedar_app_entities, cedar_app_schema, False)
+    diagnostics = Diagnostics(authz_result._authz_resp.get('diagnostics', {}))
+    print(diagnostics._diagnostics.get('reason', list()))
     if Decision.Deny == authz_result.decision:
         return render_template('denied.html')
         abort(403)  # Forbidden
     return render_template('photos-manage.html')
 
 if __name__ == '__main__':
-    policy = read_file_to_string('flask.cedar.policy')
+    policy = read_file_to_string('policies.cedar')
     event_handler = FileChangeHandler()
     observer = Observer()
-    observer.schedule(event_handler, path='flask.cedar.policy', recursive=False)
+    observer.schedule(event_handler, path='policies.cedar', recursive=False)
     observer.start()
     try:
         app.run(port=8080,debug=True)

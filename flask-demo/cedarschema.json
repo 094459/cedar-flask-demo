@@ -1,0 +1,84 @@
+{
+    "PhotoApp": {
+      "commonTypes": {
+        "ContextType": {
+            "type": "Record",
+            "attributes": {
+                "ip": {
+                    "type": "Extension",
+                    "name": "ipaddr",
+                    "required": false
+                },
+                "authenticated": {
+                    "type": "Boolean",
+                    "required": false
+                },
+                "MFAEnable": {
+                  "required": false,
+                  "type": "Boolean"
+                }
+            }
+        }
+    },
+      "entityTypes": {
+        "Application": {},
+        "User": {
+          "memberOfTypes": ["UserGroup"]
+        },
+        "UserGroup": {},
+        "Photo": {
+          "memberOfTypes": ["Album"],
+          "shape": {
+            "type": "Record",
+            "attributes": {
+              "owner": {
+                "type": "Entity",
+                "name": "User"
+              }
+            }
+          }
+        },
+        "Album": {
+          "memberOfTypes": ["Album"],
+          "shape": {
+            "type": "Record",
+            "attributes": {
+              "owner": {
+                "type": "Entity",
+                "name": "User"
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "viewPhoto": {
+          "appliesTo": {
+            "principalTypes": ["User"],
+            "resourceTypes": ["Photo","Album"],
+            "context": {
+              "type": "ContextType"
+            }
+          }
+        },
+        "managePhoto":{
+            "appliesTo": {
+                "principalTypes": ["User"],
+                "resourceTypes": ["Photo","Album"],
+                "context": {
+                  "type": "ContextType"
+                }
+            }            
+        },
+        "siteAdmin":{
+            "appliesTo": {
+                "principalTypes": ["User"],
+                "resourceTypes": ["Photo","Album"],
+                "context": {
+                  "type": "ContextType"
+                }
+            }            
+        }
+      }
+    }
+  }

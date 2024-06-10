@@ -2,6 +2,10 @@
 
 A very simple demo to show how you can use Cedar in Python, with a simple Flask based web application. This code is illustrative and verbose to help explain and show how Cedar works.
 
+**Updated June 2024**
+
+Now includes Cedarypy 1.41, improved Cedar logging that shows policy invoked, and updated entities/schema with new context
+
 This repo contains the following demo sample app.
 
 ```

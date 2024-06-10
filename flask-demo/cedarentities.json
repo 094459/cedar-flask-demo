@@ -1,5 +1,10 @@
 [
     {
+      "uid": { "type": "PhotoApp::Application", "id": "PhotoApp" },
+      "parents": [],
+      "attrs": {}
+    },
+    {
       "uid": { "type": "PhotoApp::User", "id": "JaneDoe" },
       "parents": [{ "type": "PhotoApp::UserGroup", "id": "DoeFamily" }],
       "attrs": {}
@@ -15,18 +20,21 @@
       "attrs": {}
     },
     {
-      "uid": { "type": "PhotoApp::Photo", "id": "JaneDoe.jpg" },
-      "parents": [{ "type": "PhotoApp::Album", "id": "DoePhotos" }],
-      "attrs": {}
+      "uid": { "type": "PhotoApp::Album", "id": "DoePhotos" },
+      "parents": [],
+      "attrs": {
+        "owner": {
+          "__entity": { "type": "PhotoApp::User", "id": "JaneDoe" }
+        }
+      }
     },
     {
       "uid": { "type": "PhotoApp::Album", "id": "DoePublicPhotos" },
       "parents": [{ "type": "PhotoApp::Album", "id": "DoePhotos" }],
-      "attrs": {}
-    },
-    {
-      "uid": { "type": "PhotoApp::Photo", "id": "JohnDoe.jpg" },
-      "parents": [{ "type": "PhotoApp::Album", "id": "DoePhotos" }],
-      "attrs": {}
+      "attrs": {
+        "owner": {
+          "__entity": { "type": "PhotoApp::User", "id": "JaneDoe" }
+        }
+      }
     }
   ]

@@ -1,5 +1,10 @@
-watchdog==3.0.0
+blinker==1.8.2
+cedarpy==0.4.1
+click==8.1.7
 Flask==2.3.2
 Flask-Login==0.6.2
-cedarpy==0.3.0
+itsdangerous==2.2.0
+Jinja2==3.1.4
+MarkupSafe==2.1.5
+watchdog==3.0.0
 Werkzeug==2.3.3
