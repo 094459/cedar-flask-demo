@@ -1,6 +1,6 @@
 admin:password:admin
-user:user:user
-JaneDoe:JaneDoe:user
-ric:ric:admin
-JohnDoe:JohnDoe:user
-JoePublic:JoePublic:user
+user:password:user
+JaneDoe:password:user
+ric:password:admin
+JohnDoe:password:user
+JoePublic:password:user
