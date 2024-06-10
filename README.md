@@ -12,15 +12,15 @@ This repo contains the following demo sample app.
 ├── README.md
 └── flask-demo
     ├── app.py
-    ├── entities.json
-    ├── flask.cedar.policy
+    ├── cedarentities.json
+    ├── policies.cedar
     ├── protected
     │   └── images
-    │       ├── pic-1.jpeg
-    │       ├── pic-2.png
+    │       ├── pic-1.jpg
+    │       ├── pic-2.jpg
     │       └── pic-3.jpg
     ├── requirements.txt
-    ├── schema.json
+    ├── cedarschema.json
     ├── static
     │   └── images
     │       └── cedar-green.png
@@ -33,7 +33,6 @@ This repo contains the following demo sample app.
     │   ├── photos-manage.html
     │   ├── photos.html
     │   └── public-photos.html
-    ├── test.py
     └── users.dat
 ```
 
